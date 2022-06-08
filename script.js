@@ -12,7 +12,7 @@ let strNilai = 0;
 let info;
 let namaGame;
 let instruksi;
-let strNamaGame = 'HINDARI MOTOR';
+let strNamaGame = 'PENEROBOS TROTOAR';
 let strInstruksi = 'TEKAN (space) untuk mulai dan lompat, tekan (p) untuk pause';
 
 /*jarak dari ukuran gambar .jalan / .lompat dari kanan sampai kaki
@@ -46,6 +46,7 @@ function motorSudahAda(){
 }
 
 function pause(){
+	game.addClass('pause');
 	orang.addClass('pause');
 	tampilkanInfo();
 	if(motorSudahAda()){
@@ -57,6 +58,7 @@ function pause(){
 
 function jalan(){	
 	intervalMotor();
+	game.removeClass('pause');
 	orang.removeClass('pause');
 	
 	//cek lagi ada motor atau gak
@@ -104,6 +106,7 @@ function mati(){
 	window.clearTimeout(timerBikinMotor);
 	window.clearTimeout(timerCollision);
 	orang.addClass('mati');
+	game.addClass('pause');
 	game.addClass('reset');
 }
 
@@ -145,16 +148,14 @@ function collisionMotor(){
 							let tinggiMotor = posMotor.y + posMotor.tinggi;
 
 							if (lebarOrang >= posMotor.x && posOrang.x <= lebarMotor && tinggiOrang >= posMotor.y){				
-								// if() {
 									$(this).removeClass('tantangan');
 									mati();
-								// }
 							}
 							else if(posOrang.x > lebarMotor){
 								if($(this).hasClass('tantangan')){
 									$(this).removeClass('tantangan');
 									
-									//nilai
+									// //nilai
 									strNilai = strNilai + 1;
 									nilai.text(strNilai);
 									hapusMotor();
@@ -163,7 +164,7 @@ function collisionMotor(){
 						});
 
 		collisionMotor();
-	}, 100);
+	}, 1);
 }
 
 function bikinMotor(){
@@ -176,7 +177,7 @@ function bikinMotor(){
 	//animasi motor
 	let jeniMotor = range(1, 3);
 	let pilihMotor = 'motor' + jeniMotor;
-	motor.first().addClass(pilihMotor + ' tantangan detect');
+	motor.first().addClass(pilihMotor + ' tantangan');
 	motor.first().css({'animation' : 'maju 18s forwards,  '+ pilihMotor +' .3s steps(3) infinite'});
 }
 
